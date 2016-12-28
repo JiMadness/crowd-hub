@@ -1,0 +1,60 @@
+<html>
+<head meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= me.nickName + "'s News Feed | CrowdHub" %></title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/profile.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="row">
+    <% include ./partials/dynamic-header.ejs %>
+</div>
+<br><br>
+<div class="col-xs-2"></div>
+<div class="container col-xs-8" style="background-color:white;padding-top: 1%;">
+    <% include ./partials/postBox.html %>
+    <h3>News Feed</h3>
+    <br>
+    <div class="container col-xs-12" style="background-color:white;padding-top: 1%;">
+        <% for (var i = posts.length - 1 ; i >= 0 ;i--) { %>
+        <div class="col-sm-12" style="width: 100%">
+            <div class="[ panel panel-default ] panel-google-plus">
+                <div class="panel-heading">
+                    <h3><a href=<%= '/profile/' + posts[i]._userId %>><%= posts[i]._userNickName %></a></h3>
+                    <h5><span><%= posts[i].isPublic ? 'Public' : 'Private' %></span> -
+                        <span><%= posts[i].postTime %></span></h5>
+                </div>
+                <div class="panel-body">
+                    <p><%= posts[i].body %></p>
+                    <% if(posts[i].hasPic){ %>
+                    <img class="img-responsive" src=<%= '/uploads/' + posts[i]._id %>>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+</body>
+<!-- jQuery -->
+<script src="/javascripts/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+<!-- Some JQuery -->
+<script src="/javascripts/app.js"></script>
+</html>

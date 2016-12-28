@@ -1,0 +1,52 @@
+<html>
+<head meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= me.nickName + "'s Friends | CrowdHub" %></title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/profile.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="row">
+    <% include ./partials/dynamic-header.ejs %>
+</div>
+<br><br>
+<div class="col-xs-2"></div>
+<div class="container col-xs-8" style="background-color:white;padding-top: 1%;">
+    <h3>Current Friends:</h3>
+    <br>
+    <% for (var i = 0 ; i < users.length ; i++){ %>
+    <div class="col-sm-12" style="width: 100%">
+        <div class="[ panel panel-default ] panel-google-plus">
+            <div class="panel-heading">
+                <img class="[ img-circle pull-left ]" width="50" height="50"
+                     src=<%= !users[i].hasPic ? '/images/anon.png' : '/uploads/' + users[i]._id %>>
+                <h3>
+                    <a href=<%= '/profile/' + users[i]._id %>><%= users[i].firstName + ' ' + users[i].lastName + ' (' + users[i].nickName + ')' %></a>
+                </h3>
+
+            </div>
+        </div>
+    </div>
+    <% } %>
+</div>
+</body>
+<!-- jQuery -->
+<script src="/javascripts/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+</html>

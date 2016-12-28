@@ -1,0 +1,65 @@
+<div class="container-fluid" xmlns="http://www.w3.org/1999/html" id="signup">
+    <section class="container">
+        <div class="container-page">
+            <div class="col-md-6">
+                <h3 class="dark-grey">Registration</h3>
+                <form id="signup-form" method="post" action="/users">
+                    <div class="form-group col-lg-12">
+                        <label>Nick Name</label>
+                        <input type="text" name="nickName" class="form-control" id="nick-name" required maxlength="128"
+                               minlength="1">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>First Name</label>
+                        <input type="text" name="firstName" class="form-control" id="first-name" required
+                               maxlength="128" minlength="1">
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Last Name</label>
+                        <input type="text" name="lastName" class="form-control" id="last-name" required maxlength="128"
+                               minlength="1">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" id="password" required
+                               maxlength="128" minlength="8">
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Repeat Password</label>
+                        <input type="password" class="form-control" id="password-repeat"
+                               required maxlength="128" minlength="8">
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Email Address</label>
+                        <input type="email" name="email" class="form-control" id="email" required>
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Repeat Email Address</label>
+                        <input type="email" class="form-control" id="email-repeat" required>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <h3 class="dark-grey">Terms and Conditions</h3>
+                <br>
+                <p>
+                    By clicking on "Register" you agree to The Company's' Terms and Conditions
+                </p>
+                <p>
+                    While rare, user accounts/database are subject to change due to database migration/upgrade,
+                    we may request an additional sign up.
+                </p>
+                <p>
+                    Should there be an error in the website, we will provide you with full
+                    support.
+                </p>
+                <button type="submit" form="signup-form" class="btn btn-primary">Register</button>
+            </div>
+        </div>
+    </section>
+</div>

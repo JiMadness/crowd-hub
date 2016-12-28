@@ -1,0 +1,322 @@
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= user.nickName + "'s Profile | CrowdHub" %></title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/profile.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="row" style="width: 100%">
+    <% include ./partials/dynamic-header.ejs %>
+    <br>
+    <br>
+</div>
+<div class="container">
+    <div class="row profile">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+
+                <img src=<%= !user.hasPic ? '/images/anon.png' : '/uploads/' + user._id %>
+                     class="img-responsive" id="profile-pic-big" style="margin: 0 auto">
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        <%= user.firstName + ' ' + user.lastName + ' (' + user.nickName + ')' %>
+                    </div>
+                    <div class="profile-usertitle-job">
+                        <%= user.company || "New Member" %>
+                    </div>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons">
+                    <% if (!myProfile && !user.myFriend && !user.pending && !user.requested){ %>
+                    <form method="post" action="/friendRequests">
+                        <input type="hidden" name="id" value=<%= user._id %>>
+                        <button type="submit" class="btn btn-success btn-sm">Add as Friend</button>
+                    </form>
+                    <% } else if(user.pending){ %>
+                    <button type="button" class="btn btn-success btn-sm">Pending</button>
+                    <% } else if(user.requested){ %>
+                    <button type="button" class="btn btn-success btn-sm">Requested</button>
+                    <% } else if(user.myFriend){ %>
+                    <button type="button" class="btn btn-success btn-sm">Friends</button>
+                    <% } %>
+
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+                <!-- SIDEBAR MENU -->
+                <div class="profile-usermenu">
+                    <ul class="nav">
+                        <li id="about">
+                            <a href="#about" id="about">
+                                About </a>
+                        </li>
+                        <li id="posts">
+                            <a href="#posts" id="posts">
+                                Posts </a>
+                        </li>
+                        <% if(myProfile){ %>
+                        <li id="edit">
+                            <a href="#edit" id="edit">
+                                Edit Profile </a>
+                        </li>
+                        <% } %>
+
+                    </ul>
+                </div>
+                <!-- END MENU -->
+            </div>
+        </div>
+        <a name="about"></a>
+        <div class="col-md-9" id="about-div">
+            <div class="profile-content">
+                <div class="page-header">
+                    <h1>Profile Info:</h1>
+                    <hr class="divider">
+                    <h4>Full Name:
+                        <small><%= user.firstName + ' ' + user.lastName %></small>
+                    </h4>
+                    <h4>Nickname:
+                        <small><%= user.nickName %></small>
+                    </h4>
+                    <h4>Gender:
+                        <small> <%= user.gender || 'Unspecified' %></small>
+                    </h4>
+                    <h4>Hometown:
+                        <small><%= user.homeTown || 'Planet Earth' %></small>
+                    </h4>
+                    <h4>Marital Status:
+                        <small><%= user.maritalStatus || "We don't know yet." %></small>
+                    </h4>
+                    <% if(user.myFriend || myProfile){ %>
+                    <h4>Birthday:
+                        <%
+                            var birthday = null;
+                            if (user.birthDay) {
+                                birthday = user.birthDay.toString().substring(0, 15);
+                            } %>
+                        <small><%= birthday || "Ask him/her." %></small>
+                    </h4>
+                    <h4>Phone Number(s):
+                        <small>
+                            <%= user.phoneNumbers %>
+                        </small>
+                    </h4>
+                    <h4>Bio:
+                        <small><%= user.about || "His/Her name is " + user.nickName + " and he/she's cool enough to be on CrowdHub." %>
+                        </small>
+                    </h4>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <a name="posts"></a>
+        <div class="col-xs-9" id="posts-div">
+            <div class="profile-content" style="background-color: transparent">
+                <% if(myProfile) { %>
+                <% include ./partials/postBox.html %>
+                <% } %>
+                <hr class="divider">
+                <div class="container col-xs-12" style="background-color:white;padding-top: 1%;">
+                    <% for (var i = posts.length - 1 ; i >= 0 ;i--) { %>
+                    <% if(posts[i].isPublic || user.myFriend || myProfile){ %>
+                    <div class="col-sm-12" style="width: 100%">
+                        <div class="[ panel panel-default ] panel-google-plus">
+                            <div class="panel-heading">
+                                <img class="[ img-circle pull-left ]" width="50" height="50"
+                                     src=<%= user.hasPic ? '/uploads/' + user._id : '/images/anon.png' %>
+                                />
+                                <h3><%= user.nickName %></h3>
+                                <h5><span><%= posts[i].isPublic ? 'Public' : 'Private' %></span> -
+                                    <span><%= posts[i].postTime %></span></h5>
+                            </div>
+                            <div class="panel-body">
+                                <p><%= posts[i].body %></p>
+                                <% if(posts[i].hasPic){ %>
+                                <img class="img-responsive" src=<%= '/uploads/' + posts[i]._id %>>
+                                <% } } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+
+        </div>
+        <% if(myProfile){ %>
+        <a name="edit"></a>
+        <div class="col-md-9" id="edit-div">
+            <div class="profile-content">
+                <h1>Edit Profile</h1>
+                <hr>
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <img src= <%= !user.hasPic ? '/images/anon.png' : '/uploads/' + user._id %> width="100"
+                                 height="100" id="profile-pic-small"
+                                 class="avatar img-circle"
+                                 alt="avatar">
+                            <h6 id="picture-header">Profile Picture</h6>
+                            <form method="post" enctype="multipart/form-data" action="/users/upload"
+                                  id="picture-upload">
+                                <input type="file" id="profile-picture" class="form-control"
+                                       accept=".jpeg,.jpg,.png">
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- edit form column -->
+                    <div class="col-md-9 personal-info">
+                        <h3>Personal info</h3>
+
+                        <form class="form-horizontal" method="post" action="/users/edit"
+                              role="form" id="edit-form">
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">First name:</label>
+                                <div class="col-lg-8">
+                                    <input required class="form-control" name="firstName" type="text"
+                                           value="<%= user.firstName || "" %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Last name:</label>
+                                <div class="col-lg-8">
+                                    <input required class="form-control" type="text" name="lastName"
+                                           value="<%= user.lastName || "" %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Company:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" name="company" type="text"
+                                           value="<%= user.company || "" %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Hometown:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" name="homeTown" type="text"
+                                           value="<%= user.homeTown || "" %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Email:</label>
+                                <div class="col-lg-8">
+                                    <input required disabled class="form-control" name="email" type="email"
+                                           value=<%= user.email || "" %>>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Marital Status:</label>
+                                <div class="col-lg-8">
+                                    <div class="ui-select">
+                                        <select name="maritalStatus" class="form-control">
+                                            <option selected
+                                                    value="<%= user.maritalStatus %>"><%= user.maritalStatus %></option>
+                                            <option value="Single">Single</option>
+                                            <option value="Married">Married</option>
+                                            <option value="In a relationship">In a relationship</option>
+                                            <option value="It's complicated">It's complicated</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Gender:</label>
+                                <div class="col-lg-8">
+                                    <div class="ui-select">
+                                        <select name="gender" class="form-control">
+                                            <option selected
+                                                    value="<%= user.gender %>"><%= user.gender %></option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Nickname:</label>
+                                <div class="col-md-8">
+                                    <input required class="form-control" name="nickName" type="text"
+                                           value="<%= user.nickName %>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Birthday:</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" name="birthday" type="date"
+                                           value=<%= '' %>>
+                                </div>
+                            </div>
+                            <%
+                                var numbers = '';
+                                user.phoneNumbers.map(function (phoneNumber) {
+                                    numbers += phoneNumber + ',';
+                                });
+                            %>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Phone Number(s) (Separate by ','):</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" name="phoneNumbers" type="text"
+                                           value=<%= numbers %>>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Bio:</label>
+                                <div class="col-md-8">
+                                    <textarea class="form-control" name="about"
+                                              type="text"><%= user.about || '' %></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"></label>
+                                <div class="col-md-8">
+                                    <input type="submit" form="edit-form" class="btn btn-primary"
+                                           value="Save Changes">
+                                    <span></span>
+                                    <input type="reset" class="btn btn-default" value="Cancel">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <% } %>
+    </div>
+</div>
+<div class="modal-footer" style="background-color: white">
+    <% include ./partials/footer.html %>
+</div>
+</body>
+<!-- jQuery -->
+<script src="/javascripts/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+<!-- Some JQuery -->
+<script src="/javascripts/app.js"></script>
+<script></script>
+</html>

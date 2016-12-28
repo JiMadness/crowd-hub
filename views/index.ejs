@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>CrowdHub - Waste your time!</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/app.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<% include partials/static-header.html %>
+
+<!-- Header -->
+<a name="about"></a>
+<div class="intro-header">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <% if(err != null){ %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= err %>
+                    </div>
+                    <% } %>
+                    <% if(info != null){ %>
+                    <div class="alert alert-info" role="alert">
+                        <%= info %>
+                    </div>
+                    <% } %>
+                    <h1>CrowdHub</h1>
+                    <h3>A Social Network Disease made for you :)</h3>
+                    <hr class="intro-divider">
+                    <ul class="list-inline intro-social-buttons">
+                        <li id="login">
+                            <a class="btn btn-default btn-lg"> <span class="network-name">Login</span></a>
+                        </li>
+                        <li>
+                            <a href="#signup" id="signup-button"
+                               class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span
+                                        class="network-name">Sign Up</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</div>
+
+<!-- /.intro-header -->
+
+<!-- /.banner -->
+
+<!-- Signup Form -->
+<a name="signup"></a>
+<% include ./partials/signup.html %>
+<!-- Footer -->
+<% include ./partials/footer.html %>
+
+<!-- jQuery -->
+<script src="/javascripts/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+<!-- Some JQuerry -->
+<script>
+    $(document).ready(function () {
+        $("#signup").hide();
+    });
+    $("#login").click(function () {
+        $("#email-textbox").focus();
+        $("#email-textbox").fadeOut(500);
+        $("#email-textbox").fadeIn(500);
+        $("#password-textbox").fadeOut(500);
+        $("#password-textbox").fadeIn(500);
+        $("#login-button").fadeOut(500);
+        $("#login-button").fadeIn(500);
+        $("#email-textbox").fadeOut(500);
+        $("#email-textbox").fadeIn(500);
+        $("#password-textbox").fadeOut(500);
+        $("#password-textbox").fadeIn(500);
+        $("#login-button").fadeOut(500);
+        $("#login-button").fadeIn(500);
+    });
+    $("#signup-button").click(function () {
+        $("#signup").show();
+        $("#signup").fadeOut(0);
+        $("#signup").fadeIn(500);
+    });
+    $("#signup-form").submit(function () {
+        if ($("#password").val() != $("#password-repeat").val()) {
+            alert("Passwords Don't match.\nPlease re-type your password and try again.");
+            return false;
+        }
+        if ($("#email").val() != $("#email-repeat").val()) {
+            alert("Emails Don't match.\nPlease re-type your email and try again.");
+            return false;
+        }
+        $("#password").val(CryptoJS.MD5($("#password").val()));
+        return true;
+    });
+    $("#login-form").submit(function () {
+        $("#password-textbox").val(CryptoJS.MD5($("#password-textbox").val()));
+    });
+</script>
+</body>
+
+</html>
