@@ -10,9 +10,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var profile = require('./routes/profile');
 var posts = require('./routes/posts');
-var search = require('/routes/search');
 var friendRequests = require('./routes/friendRequests');
-mongoose.connect('mongodb://localhost/crowd-hub');
+mongoose.connect('mongodb://admin:admin@ds141368.mlab.com:41368/crowd-hub');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -39,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
     if ((req.path != '/' && req.path != '/users/login' && req.path != '/users') && !req.session.isLoggedIn)
         res.redirect('/');
-
     else
         next();
 });
@@ -50,7 +48,6 @@ app.use('/users', users);
 app.use('/profile', profile);
 app.use('/posts', posts);
 app.use('/friendRequests', friendRequests);
-app.use('/search', search);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
