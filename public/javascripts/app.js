@@ -56,7 +56,7 @@ $(document).ready(function () {
                 return true;
             }
         };
-        request.open("POST", '/users/upload', true);
+        request.open("POST", '/users/upload', false);
         request.send(formData);
     });
 
