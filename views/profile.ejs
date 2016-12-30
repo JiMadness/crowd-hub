@@ -130,7 +130,7 @@
             </div>
         </div>
         <a name="posts"></a>
-        <div class="col-xs-9" id="posts-div">
+        <div class="col-md-9" id="posts-div">
             <div class="profile-content" style="background-color: transparent">
                 <% if(myProfile) { %>
                 <% include ./partials/postBox.html %>
@@ -139,7 +139,7 @@
                 <div class="container col-xs-12" style="background-color:white;padding-top: 1%;">
                     <% for (var i = posts.length - 1 ; i >= 0 ;i--) { %>
                     <% if(posts[i].isPublic || user.myFriend || myProfile){ %>
-                    <div class="col-sm-12" style="width: 100%">
+                    <div class="col-md-12" style="width: 100%">
                         <div class="[ panel panel-default ] panel-google-plus">
                             <div class="panel-heading">
                                 <img class="[ img-circle pull-left ]" width="50" height="50"
