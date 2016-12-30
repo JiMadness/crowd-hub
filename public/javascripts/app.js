@@ -51,9 +51,13 @@ $(document).ready(function () {
         var formData = new FormData();
         formData.append("profilePicture", document.getElementById('profile-picture').files[0]);
         var request = new XMLHttpRequest();
-        request.open("POST", '/users/upload', true);
+        request.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                return true;
+            }
+        };
+        request.open("POST", '/users/upload', false);
         request.send(formData);
-        return true;
     });
 
     $("#post-form").submit(function () {
