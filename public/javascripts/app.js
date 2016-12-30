@@ -62,8 +62,6 @@ $(document).ready(function () {
 
     $("#post-form").submit(function () {
         unclicked = false;
-        if (document.getElementById('post-picture').files.length == 0)
-            return true;
         var formData = new FormData();
         formData.append('postPicture', document.getElementById('post-picture').files[0]);
         var request = new XMLHttpRequest();
