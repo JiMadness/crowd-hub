@@ -62,7 +62,7 @@ $(document).ready(function () {
 
     $("#post-form").submit(function () {
         unclicked = false;
-        if (document.getElementById('profile-picture').files.length == 0 && $('#post-body').val == '') {
+        if (document.getElementById('profile-picture').files.length == 0 && $('#post-body').val == null) {
             alert("You can't have an empty post.");
             return false;
         }
