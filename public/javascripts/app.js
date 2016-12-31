@@ -62,10 +62,6 @@ $(document).ready(function () {
 
     $("#post-form").submit(function () {
         unclicked = false;
-        if (document.getElementById('profile-picture').files.length == 0 && $('#post-body').val == null) {
-            alert("You can't have an empty post.");
-            return false;
-        }
         var formData = new FormData();
         formData.append('postPicture', document.getElementById('post-picture').files[0]);
         var request = new XMLHttpRequest();
